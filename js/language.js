@@ -2,6 +2,7 @@
 class LanguageManager {
     constructor() {
         this.currentLanguage = 'pt';
+        this.currentData = null;
         this.translations = {
             pt: {
                 // Navigation
@@ -57,6 +58,7 @@ class LanguageManager {
                 
                 // Map
                 mapainterativo: 'Mapa Interativo',
+                mapadescricao: 'Explore os locais, alojamentos, restaurantes e atividades da nossa freguesia.',
                 todos: 'Todos',
                 
                 // Popup content
@@ -126,6 +128,7 @@ class LanguageManager {
                 
                 // Map
                 mapainterativo: 'Interactive Map',
+                mapadescricao: 'Explore the places, accommodations, restaurants and activities of our parish.',
                 todos: 'All',
                 
                 // Popup content
@@ -195,6 +198,7 @@ class LanguageManager {
                 
                 // Map
                 mapainterativo: 'Mapa Interactivo',
+                mapadescricao: 'Explora los lugares, alojamientos, restaurantes y actividades de nuestra parroquia.',
                 todos: 'Todos',
                 
                 // Popup content
@@ -264,6 +268,7 @@ class LanguageManager {
                 
                 // Map
                 mapainterativo: 'Carte Interactive',
+                mapadescricao: 'Explorez les lieux, hébergements, restaurants et activités de notre paroisse.',
                 todos: 'Tous',
                 
                 // Popup content
@@ -313,7 +318,34 @@ class LanguageManager {
     changeLanguage(lang) {
         this.currentLanguage = lang;
         this.translatePage(lang);
+        this.loadLanguageData(lang);
         this.saveLanguagePreference(lang);
+    }
+    
+    loadLanguageData(lang) {
+        try {
+            // Get the data from the already loaded language files
+            this.currentData = window[`freguesiaData_${lang}`];
+            
+            if (this.currentData) {
+                // Update allLocations with the new language data
+                window.allLocations = [
+                    ...this.currentData.accommodation
+                ];
+                
+                // Notify map to reload with new data
+                if (window.interactiveMap) {
+                    window.interactiveMap.refreshMarkersWithNewData();
+                }
+                
+                console.log(`Language data loaded for: ${lang}`);
+            } else {
+                console.error(`Language data not found for: ${lang}`);
+            }
+            
+        } catch (error) {
+            console.error('Error loading language data:', error);
+        }
     }
     
     translatePage(lang) {
@@ -342,6 +374,10 @@ class LanguageManager {
     
     loadSavedLanguage() {
         const savedLang = localStorage.getItem('freguesia_language') || 'pt';
+        
+        // Load data for current language
+        this.loadLanguageData(savedLang);
+        
         if (savedLang !== 'pt') {
             this.changeLanguage(savedLang);
             
@@ -364,5 +400,6 @@ class LanguageManager {
 
 // Initialize language manager when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new LanguageManager();
+    window.languageManager = new LanguageManager();
+    console.log('Language manager initialized');
 });

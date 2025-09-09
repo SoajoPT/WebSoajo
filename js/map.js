@@ -5,7 +5,14 @@ class InteractiveMap {
         this.markers = [];
         this.markerGroup = null;
         this.currentFilter = 'all';
+        this.originalMapHeight = null;
         this.init();
+    }
+    
+    refreshMarkersWithNewData() {
+        // Reload markers with new language data
+        this.loadMarkers();
+        console.log('Map refreshed with new language data');
     }
     
     init() {
@@ -13,10 +20,10 @@ class InteractiveMap {
         this.loadMarkers();
         this.initFilters();
     }
-
+    
     initMap() {
-        // Initialize Leaflet map centered on the region
-        this.map = L.map('map').setView([41.87500372977779, -8.264530028893418], 13);
+        // Initialize Leaflet map centered on Soajo
+        this.map = L.map('map').setView([41.8742, -8.2630], 13);
         
         // Add OpenStreetMap tiles
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -70,14 +77,29 @@ class InteractiveMap {
         const popupContent = this.createPopupContent(location);
         marker.bindPopup(popupContent, {
             maxWidth: 300,
-            className: 'custom-popup'
+            className: 'custom-popup',
+            offset: [0, -10] // Offset popup slightly above marker
         });
         
-        // Apply translations to popup when it opens
-        marker.on('popupopen', () => {
+        // Apply translations and auto-resize when popup opens
+        marker.on('popupopen', (e) => {
             if (window.languageManager) {
                 window.languageManager.applyTranslations();
             }
+            
+            // Auto-resize map to accommodate popup
+            setTimeout(() => {
+                this.resizeMapForPopup(e.popup);
+            }, 200);
+        });
+        
+        // Restore original map size and recenter when popup closes
+        marker.on('popupclose', () => {
+            this.restoreMapSize();
+            // Recenter to show all visible markers after a short delay
+            setTimeout(() => {
+                this.recenterToVisibleMarkers();
+            }, 600); // Wait for resize animation to complete
         });
         
         return marker;
@@ -85,21 +107,40 @@ class InteractiveMap {
     
     createPopupContent(location) {
         const navigationUrl = this.getNavigationUrl(location.coords);
+        const isAirbnb = location.url && location.url.includes('airbnb.com');
         
-        return `
+        let popupHTML = `
             <div class="popup-content">
                 <img src="${location.image}" alt="${location.name}" loading="lazy">
                 <h3>${location.name}</h3>
                 <p><strong data-translate="descricao">Descrição</strong>: ${location.description}</p>
                 <p><strong data-translate="morada">Morada</strong>: ${location.address}</p>
-                <p><strong>${this.getCapacityLabel(location.category)}</strong>: ${location.capacity}</p>
+                <p><strong>${this.getCapacityLabel(location.category)}</strong>: ${location.capacity}</p>`;
+        
+        if (isAirbnb && location.rating) {
+            popupHTML += `
+                <div class="airbnb-details">
+                    <p><strong>Avaliação</strong>: ★${location.rating} (${location.reviewCount} avaliações)</p>
+                    <p><strong>Anfitrião</strong>: ${location.host}</p>
+                    <p><strong>Tipo</strong>: ${location.propertyType}</p>
+                </div>
+                <div class="popup-airbnb-actions">
+                    <a href="${location.url}" target="_blank" class="airbnb-btn">
+                        <i class="fas fa-external-link-alt"></i> Ver no Airbnb
+                    </a>
+                </div>`;
+        } else {
+            popupHTML += `
                 <div class="popup-contact">
                     <p><strong data-translate="contacto">Contacto</strong>: 
                         <a href="${this.getContactLink(location.contact)}" target="_blank">
                             ${location.contact}
                         </a>
                     </p>
-                </div>
+                </div>`;
+        }
+        
+        popupHTML += `
                 <div class="popup-navigation">
                     <a href="${navigationUrl}" target="_blank" class="navigation-btn">
                         <i class="fas fa-route"></i> <span data-translate="comochegar">Como Chegar</span>
@@ -107,6 +148,8 @@ class InteractiveMap {
                 </div>
             </div>
         `;
+        
+        return popupHTML;
     }
     
     getCapacityLabel(category) {
@@ -148,27 +191,47 @@ class InteractiveMap {
     }
     
     initFilters() {
-        // Handle "Todos" button
+        // Handle "All" button
         const allButton = document.querySelector('[data-filter="all"]');
         if (allButton) {
             allButton.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.clearActiveStates();
+                this.closeAllSubmenus();
                 allButton.classList.add('active');
                 this.applyFilter('all');
             });
         }
 
-        // Handle category buttons (main categories)
-        const categoryButtons = document.querySelectorAll('.category-btn');
+        // Handle category icon buttons
+        const categoryButtons = document.querySelectorAll('.category-icon-btn');
         categoryButtons.forEach(button => {
             button.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.clearActiveStates();
-                button.classList.add('active');
                 
-                const category = button.getAttribute('data-category');
-                this.applyFilter(category);
+                // Check if we're on mobile (where subcategories should toggle)
+                const isMobile = window.innerWidth <= 768;
+                
+                if (isMobile) {
+                    // On mobile, toggle the submenu
+                    const filterGroup = button.closest('.icon-filter-group');
+                    const isCurrentlyActive = filterGroup.classList.contains('active');
+                    
+                    // Close all other submenus
+                    this.closeAllSubmenus();
+                    
+                    if (!isCurrentlyActive) {
+                        // Open this submenu
+                        filterGroup.classList.add('active');
+                    }
+                } else {
+                    // On desktop, apply filter directly to main category
+                    this.clearActiveStates();
+                    button.classList.add('active');
+                    
+                    const category = button.getAttribute('data-category');
+                    this.applyFilter(category);
+                }
             });
         });
 
@@ -178,6 +241,7 @@ class InteractiveMap {
             button.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.clearActiveStates();
+                this.closeAllSubmenus();
                 button.classList.add('active');
                 
                 const category = button.getAttribute('data-filter');
@@ -187,10 +251,18 @@ class InteractiveMap {
         });
     }
 
+    closeAllSubmenus() {
+        const filterGroups = document.querySelectorAll('.icon-filter-group');
+        filterGroups.forEach(group => {
+            group.classList.remove('active');
+        });
+    }
+
     clearActiveStates() {
-        const allButtons = document.querySelectorAll('.filter-btn');
+        const allButtons = document.querySelectorAll('.icon-filter-btn, .subcategory-btn');
         allButtons.forEach(btn => btn.classList.remove('active'));
     }
+
     
     applyFilter(filter) {
         this.currentFilter = filter;
@@ -238,6 +310,89 @@ class InteractiveMap {
             this.map.fitBounds(group.getBounds(), {
                 padding: [20, 20]
             });
+        }
+    }
+    
+    resizeMapForPopup(popup) {
+        try {
+            const mapContainer = document.getElementById('map');
+            if (!mapContainer) return;
+            
+            // Store original height if not already stored
+            if (!this.originalMapHeight) {
+                this.originalMapHeight = mapContainer.style.height || getComputedStyle(mapContainer).height;
+            }
+            
+            // Get popup container
+            const popupContainer = popup._container;
+            if (!popupContainer) return;
+            
+            // Calculate current viewport and popup dimensions
+            const mapRect = mapContainer.getBoundingClientRect();
+            const popupRect = popupContainer.getBoundingClientRect();
+            
+            // Check if popup extends beyond bottom of current map
+            const headerHeight = 80;
+            const padding = 40;
+            const availableBottom = window.innerHeight - padding;
+            
+            if (popupRect.bottom > availableBottom) {
+                // Calculate how much extra height we need
+                const extraHeight = popupRect.bottom - availableBottom + padding;
+                const currentHeight = mapRect.height;
+                const newHeight = currentHeight + extraHeight;
+                
+                // Apply new height with smooth transition
+                mapContainer.style.transition = 'height 0.5s ease';
+                mapContainer.style.height = `${newHeight}px`;
+                
+                // Invalidate map size after resize
+                setTimeout(() => {
+                    this.map.invalidateSize();
+                }, 100);
+                
+                console.log(`Map resized from ${currentHeight}px to ${newHeight}px for popup`);
+            }
+        } catch (error) {
+            console.log('Map resize failed, popup still works');
+        }
+    }
+    
+    restoreMapSize() {
+        try {
+            const mapContainer = document.getElementById('map');
+            if (!mapContainer || !this.originalMapHeight) return;
+            
+            // Restore original height with smooth transition
+            mapContainer.style.transition = 'height 0.5s ease';
+            mapContainer.style.height = this.originalMapHeight;
+            
+            // Invalidate map size after resize
+            setTimeout(() => {
+                this.map.invalidateSize();
+            }, 100);
+            
+            console.log('Map size restored to original');
+        } catch (error) {
+            console.log('Map restore failed, but no major impact');
+        }
+    }
+    
+    recenterToVisibleMarkers() {
+        try {
+            // Get all currently visible markers
+            const visibleMarkers = [];
+            this.markers.forEach(({ marker, location }) => {
+                if (this.markerGroup.hasLayer(marker)) {
+                    visibleMarkers.push(marker);
+                }
+            });
+            
+            // Center map on visible markers
+            this.centerMapOnMarkers(visibleMarkers);
+            console.log('Map recentered to show all visible markers');
+        } catch (error) {
+            console.log('Recenter failed, but no major impact');
         }
     }
     
@@ -302,11 +457,62 @@ class InteractiveMap {
     }
 }
 
+// Simple mobile menu functionality (works without map)
+function initMobileMenus() {
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            const filterGroup = button.closest('.filter-group');
+            const isActive = filterGroup.classList.contains('active');
+            
+            // Close all menus first
+            document.querySelectorAll('.filter-group').forEach(group => {
+                group.classList.remove('active');
+            });
+            
+            // Toggle this menu
+            if (!isActive) {
+                filterGroup.classList.add('active');
+            }
+            
+            console.log('Menu toggled for:', button.textContent);
+        });
+    });
+    
+    // Handle subcategory clicks
+    const subcategoryButtons = document.querySelectorAll('.subcategory-btn');
+    subcategoryButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('Subcategory clicked:', button.textContent);
+            
+            // Close all menus
+            document.querySelectorAll('.filter-group').forEach(group => {
+                group.classList.remove('active');
+            });
+        });
+    });
+}
+
+// Initialize mobile menus immediately
+document.addEventListener('DOMContentLoaded', () => {
+    initMobileMenus();
+    console.log('Mobile menus initialized');
+});
+
 // Initialize map when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     const mapContainer = document.getElementById('map');
     if (mapContainer) {
-        const interactiveMap = new InteractiveMap();
-        interactiveMap.addMarkerStyles();
+        try {
+            window.interactiveMap = new InteractiveMap();
+            window.interactiveMap.addMarkerStyles();
+            console.log('Map initialized successfully');
+        } catch (error) {
+            console.log('Map initialization failed, but menus should still work');
+        }
     }
 });

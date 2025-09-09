@@ -1,23 +1,23 @@
-<!doctype html>
-<html class="no-js" lang="en">
-
-    <head>
+<!DOCTYPE html>
+<html class="no-js" lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Soajo</title>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="author" content="">
-        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-        <meta name="description" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="description" content="">
         <!-- favicon icon -->
-        <link rel="shortcut icon" href="images/favicon.png">
-        <link rel="apple-touch-icon" href="images/apple-touch-icon-57x57.png">
-        <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
-        <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
-        <!-- google fonts preconnect -->
-        <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <!-- style sheets and font icons  -->
-        <!-- CSS -->
+    <link rel="shortcut icon" href="images/favicon.png">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    <!-- google fonts preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- style sheets and font icons  -->
+    <!-- CSS -->
     <link rel="stylesheet" href="css/styles.css">
     
     <!-- Leaflet CSS -->
@@ -28,23 +28,16 @@
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="css/vendors.min.css" />
+     <link rel="stylesheet" href="css/vendors.min.css" />
         <link rel="stylesheet" href="css/icon.min.css" />
         <link rel="stylesheet" href="css/style.min.css" />
         <link rel="stylesheet" href="css/responsive.min.css" />
         <link rel="stylesheet" href="css/photography.css" />
-    </head>
-    <body data-mobile-nav-style="classic" class="background-position-center-top custom-cursor" style="background-image: url(images/vertical-line-bg-small-medium-gray.svg)">
-        <!-- start cursor -->
-        <div class="cursor-page-inner">
-            <div class="circle-cursor circle-cursor-inner"></div>
-            <div class="circle-cursor circle-cursor-outer"></div>
-        </div>
-        <!-- end cursor -->
-        <!-- start header -->
-        <header>
-            <!-- start navigation -->
-           <nav class="navbar navbar-expand-lg header-light bg-white fixed-header header-demo">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar navbar-expand-lg header-light bg-white fixed-header header-demo">
                 <div class="container-fluid">
                     
                     <div class="col-auto">
@@ -71,16 +64,29 @@
                 </div>
             </nav>
             <!-- end navigation -->
-            <!-- start hamburger menu -->
-           <div class="push-menu hamburger-nav header-dark hamburger-menu-simple bg-dark-gray" style="background-image: url(images/vertical-line-bg-small.svg)">
+            <div class="push-menu hamburger-nav header-dark hamburger-menu-simple bg-dark-gray" style="background-image: url(img/vertical-line-bg-small.svg)">
                 <span class="close-menu bg-white fs-18"><i class="fa-solid fa-xmark text-dark-gray"></i></span>
                 <div class="d-flex flex-column align-items-center justify-content-center h-100 p-5 sm-px-0">
-                    
                     <a class="" href="map.html">
-                            <img src="img/logo-soajo-white-map.png" data-at2x="logo-soajo-white-map.png"alt="">
+                        <img src="img/logo-soajo-white-map.png" data-at2x="img/logo-soajo-white-map.png" alt="Logotipo Soajo">
                     </a>
                     <div class="row align-items-center justify-content-center">
-                        <div class="hamburger-menu menu-list-wrapper col-lg-5 col-md-12 lg-no-margin offset-lg-1" data-scroll-options='{ "theme": "light" }'> 
+                       <div class="col-md-12 text-center ms-auto elements-social social-text-style-01 sm-mb-5px">  
+                        <!-- <ul class="small-icon dark fw-600 alt-font">
+                                <li><button class="lang-option" data-lang="en">En.</button></li>
+                                <li><button class="lang-option active" data-lang="pt">Pt.</button></li>  
+                                <li><button class="lang-option" data-lang="es">Es.</button></li> 
+                                <li><button class="lang-option" href="#" data-lang="fr">Fr.</button></li>  
+                            </ul> -->
+                            <ul class="fs-19 light alt-font">
+                                <li class="lang-option" data-lang="pt"><a href="#">Pt.</a></li> 
+                                <li class="lang-option" data-lang="en"><a href="#">En.</a></li>
+                                <li class="lang-option" data-lang="pt"><a href="#">Es.</a></li>
+                                <li class="lang-option" data-lang="en"><a href="#">Fr.</a></li>
+                            </ul>
+                       </div> 
+                       
+                        <div class="hamburger-menu menu-list-wrapper col-lg-12 col-md-12 lg-no-margin offset-lg-1" data-scroll-options='{ "theme": "light" }'> 
                             <ul class="menu-item-list fw-300 alt-font ls-minus-2px">
                                 <li class="menu-item"><a href="sobre.html" class="nav-link">Sobre Soajo</a></li>
                                 <li class="menu-item"><a href="eventos.html" class="nav-link">Festividades</a></li>
@@ -89,24 +95,23 @@
                                 <li class="menu-item"><a href="#" class="nav-link">Património Biocultural</a></li>
                                 <li class="menu-item"><a href="#" class="nav-link">Reserva Mundial da Biosfera</a></li>
                                 <li class="menu-item"><a href="#" class="nav-link">Parque Nacional Peneda Gerês</a></li>
-                            </ul>
-                        </div> 
-                        <div class="col-md-3 d-none d-lg-inline-block offset-3">
-                            <div class="row menu-address">
-                                <div class="col-12 mb-50px">
-                                    <span class="text-white mb-5px d-block">Contacto</span> 
-                                    <div class="d-block text-medium-gray">
+                            </ul> 
+                            <p></p>
+                            <ul class=" fw-400 ls-minus-20px" style="padding-left: 7.5%";>
+                                <span class="text-white">Contacto</span> 
+                                    <div class="text-medium-gray">
                                         <span></span> <a href="tel:+35158576747" class="text-medium-gray text-white-hover">+351 258 576 747</a>
                                     </div>
                                     <div class="d-block text-medium-gray">
                                         <span></span> <a href="mailto:emaildosoajo@gmail.com" class="text-medium-gray text-white-hover"><span class="">emaildosoajo@gmail.com</span></a>
                                     </div>
-                                </div>
-                                <div class="col-12 last-paragraph-no-margin mb-50px">
+                                    <p></p>
+                                 <div class="col-12 last-paragraph-no-margin ">
                                     <span class="text-white mb-5px d-block">Morada</span> 
                                     <p class="text-medium-gray">Junta Freguesia de Soajo</p>
                                     <p class="text-medium-gray">Largo do Eiró, 4970-660 <br> Soajo - Arcos de Valdevez <br> Portugal</p>
                                 </div>
+                                <p></p>
                                 <div class="col-12 elements-social social-icon-style-10">
                                     <ul class="fs-19 light alt-font">
                                         <li class="me-15px">
@@ -116,96 +121,97 @@
                                             <a class="instagram" href="https://www.instagram.com/" target="_blank">Ig.</a>
                                         </li>
                                     </ul>
-                                    <ul class="small-icon dark fw-600 alt-font">
-                                        <li class="me-15px">
-                                            <a class="facebook" href="#">English.</a>
-                                        </li> 
-                                    </ul>
-                                </div>
-                            </div>
+                                    <p></p>
+                                    
+                                </div>   
+                            </ul>   
+                            
+                        
+                            
+                        </div> 
+                        
+                        <div class="col-md-3 d-none d-lg-inline-block offset-3">
+                          
                         </div> 
                     </div>
                 </div>
             </div>
-            <!-- end hamburger menu -->
-        </header>
-        <!-- end header -->
-        <div class="main-content background-position-center-top"  style="background-image: url(images/vertical-line-bg-small-medium-gray.svg)">
-            <!-- start page title --> 
-          
-            <!-- end page title -->
-            
-            <!-- Map Section -->
-        <section class="map-section " id="mapa">
+    </header>
+<div class="main-content background-position-center-top"  style="background-image: url(images/vertical-line-bg-small-medium-gray.svg)">
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Map Section -->
+        <section class="map-section">
             <div class="container">
-                <h2 data-translate="mapainterativo"></h2>
+
                 <div class="map-controls">
-                    <div class="filter-buttons">
-                        <button class="filter-btn active" data-filter="all">
-                            <i class="fas fa-map-marker-alt"></i> <span data-translate="todos">Todos</span>
+                    <div class="icon-filter-buttons">
+                        <button class="icon-filter-btn active" data-filter="all" title="Todos">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span class="btn-text" data-translate="todos">Todos</span>
                         </button>
                         
                         <!-- Onde Ficar -->
-                        <div class="filter-group">
-                            <button class="filter-btn category-btn" data-category="accommodation">
-                                <i class="fas fa-bed"></i> <span data-translate="ondeficar">Onde Ficar</span>
-                                <i class="fas fa-chevron-down"></i>
+                        <div class="icon-filter-group">
+                            <button class="icon-filter-btn category-icon-btn" data-category="accommodation" title="Onde Ficar">
+                                <i class="fas fa-bed"></i>
+                                <span class="btn-text" data-translate="ondeficar">Onde Ficar</span>
                             </button>
-                            <div class="subcategory-menu">
-                                <button class="filter-btn subcategory-btn" data-filter="accommodation" data-subcategory="alojamento">
+                            <div class="icon-subcategory-menu">
+                                <button class="subcategory-btn" data-filter="accommodation" data-subcategory="alojamento">
                                     <span data-translate="alojamento">Alojamento</span>
                                 </button>
-                                <button class="filter-btn subcategory-btn" data-filter="accommodation" data-subcategory="caravanas">
+                                <button class="subcategory-btn" data-filter="accommodation" data-subcategory="caravanas">
                                     <span data-translate="caravanas">Caravanas</span>
                                 </button>
-                                <button class="filter-btn subcategory-btn" data-filter="accommodation" data-subcategory="campismo">
+                                <button class="subcategory-btn" data-filter="accommodation" data-subcategory="campismo">
                                     <span data-translate="campismo">Campismo</span>
                                 </button>
                             </div>
                         </div>
                         
                         <!-- Onde Comer -->
-                        <div class="filter-group">
-                            <button class="filter-btn category-btn" data-category="restaurant">
-                                <i class="fas fa-utensils"></i> <span data-translate="ondecomer">Onde Comer</span>
-                                <i class="fas fa-chevron-down"></i>
+                        <div class="icon-filter-group">
+                            <button class="icon-filter-btn category-icon-btn" data-category="restaurant" title="Onde Comer">
+                                <i class="fas fa-utensils"></i>
+                                <span class="btn-text" data-translate="ondecomer">Onde Comer</span>
                             </button>
-                            <div class="subcategory-menu">
-                                <button class="filter-btn subcategory-btn" data-filter="restaurant" data-subcategory="restaurantes">
+                            <div class="icon-subcategory-menu">
+                                <button class="subcategory-btn" data-filter="restaurant" data-subcategory="restaurantes">
                                     <span data-translate="restaurantes">Restaurantes</span>
                                 </button>
-                                <button class="filter-btn subcategory-btn" data-filter="restaurant" data-subcategory="snackbar">
+                                <button class="subcategory-btn" data-filter="restaurant" data-subcategory="snackbar">
                                     <span data-translate="snackbar">SnackBar</span>
                                 </button>
-                                <button class="filter-btn subcategory-btn" data-filter="restaurant" data-subcategory="cafe">
+                                <button class="subcategory-btn" data-filter="restaurant" data-subcategory="cafe">
                                     <span data-translate="cafe">Café</span>
                                 </button>
-                                <button class="filter-btn subcategory-btn" data-filter="restaurant" data-subcategory="padarias">
+                                <button class="subcategory-btn" data-filter="restaurant" data-subcategory="padarias">
                                     <span data-translate="padarias">Padarias</span>
                                 </button>
-                                <button class="filter-btn subcategory-btn" data-filter="restaurant" data-subcategory="mercearias">
+                                <button class="subcategory-btn" data-filter="restaurant" data-subcategory="mercearias">
                                     <span data-translate="mercearias">Mercearias</span>
                                 </button>
                             </div>
                         </div>
                         
                         <!-- O que Fazer -->
-                        <div class="filter-group">
-                            <button class="filter-btn category-btn" data-category="activity">
-                                <i class="fas fa-hiking"></i> <span data-translate="oquefazer">O que Fazer</span>
-                                <i class="fas fa-chevron-down"></i>
+                        <div class="icon-filter-group">
+                            <button class="icon-filter-btn category-icon-btn" data-category="activity" title="O que Fazer">
+                                <i class="fas fa-hiking"></i>
+                                <span class="btn-text" data-translate="oquefazer">O que Fazer</span>
                             </button>
-                            <div class="subcategory-menu">
-                                <button class="filter-btn subcategory-btn" data-filter="activity" data-subcategory="gastronomia">
+                            <div class="icon-subcategory-menu">
+                                <button class="subcategory-btn" data-filter="activity" data-subcategory="gastronomia">
                                     <span data-translate="gastronomia">Gastronomia</span>
                                 </button>
-                                <button class="filter-btn subcategory-btn" data-filter="activity" data-subcategory="patrimonio-edificado">
+                                <button class="subcategory-btn" data-filter="activity" data-subcategory="patrimonio-edificado">
                                     <span data-translate="patrimonio">Património Edificado</span>
                                 </button>
-                                <button class="filter-btn subcategory-btn" data-filter="activity" data-subcategory="actividades-natureza">
+                                <button class="subcategory-btn" data-filter="activity" data-subcategory="actividades-natureza">
                                     <span data-translate="actividades">Actividades Natureza</span>
                                 </button>
-                                <button class="filter-btn subcategory-btn" data-filter="activity" data-subcategory="festividades">
+                                <button class="subcategory-btn" data-filter="activity" data-subcategory="festividades">
                                     <span data-translate="festividades">Festividades</span>
                                 </button>
                             </div>
@@ -215,11 +221,9 @@
                 <div id="map" class="map-container"></div>
             </div>
         </section>
-            <!-- start section --> 
-            
-            <!-- end section -->
-        </div>
-        <!-- start footer -->
+    </main>
+    </div>
+<!-- start footer -->
         <footer class="bg-very-light-gray background-position-center-top pb-3 footer-sticky" style="background-image: url(images/vertical-line-bg-small-medium-gray.svg)">
             <div class="container">
                
@@ -232,29 +236,37 @@
                 
                     <div class="col-md-4 text-center text-md-end ms-auto elements-social social-text-style-01 sm-mb-15px">
                         <ul class="small-icon dark fw-600 alt-font">
+                            <li><button class="lang-option" data-lang="en">En.</button></li>
+                            <li><button class="lang-option active" data-lang="pt">Pt.</button></li>  
+                             <li><button class="lang-option" data-lang="es">Es.</button></li> 
+                             <li><button class="lang-option" href="#" data-lang="fr">Fr.</button></li>  
+                        </ul> 
+                        <ul class="small-icon dark fw-600 alt-font">
                             <li><a class="facebook" href="https://www.facebook.com/" target="_blank">Fb.</a></li>
                             <li><a class="instagram" href="https://www.instagram.com" target="_blank">Ig.</a></li>   
                         </ul> 
-                        <ul class="fs-19 light alt-font">
-                                        <li class="me-15px">
-                                            <a class="facebook" href="#" target="_blank">English.</a>
-                                        </li> 
-                                    </ul>
+                        
+                        
                     </div>
+                   
                 </div>
             </div>
         </footer>
         <!-- end footer -->
-        <!-- javascript libraries -->
-        <script type="text/javascript" src="js/jquery.js"></script>
-        <script type="text/javascript" src="js/vendors.min.js"></script>
-        <script type="text/javascript" src="js/main.js"></script>
-           <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="js/data.js"></script>
-    <script src="js/weather.js"></script>
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/vendors.min.js"></script>
+    <script src="js/data_pt.js"></script>
+    <script src="js/data_en.js"></script>
+    <script src="js/data_fr.js"></script>
+    <script src="js/data_es.js"></script>
     <script src="js/map.js"></script>
     <script src="js/language.js"></script>
+    <script src="js/main.js"></script>
     <script src="js/main1.js"></script>
-    </body>
-
+    <script src="js/data.js"></script>
+    <script src="js/weather.js"></script>
+    
+</body>
 </html>
